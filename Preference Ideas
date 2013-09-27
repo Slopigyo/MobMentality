@@ -1,0 +1,35 @@
+Ideas and links for prefence/influence mechanism:
+
+I've been reading a ton about machine learning lately, and
+I think at the very least we can use some ideas behind how 
+machine learning works to inform the design of our 
+preference/influence mechanism.
+
+Some stuff I have been reading/exploring:
+
+
+These are some academic papers related to the stuff I am thinking about, however, I think what they
+are doing is actually more sophisticated than what we need to do.
+http://tbertinmahieux.com/Papers/ismir07_submission.pdf
+http://cs229.stanford.edu/proj2012/DiabMaineroWatson-MusicalGenreTagClassificationWithCuratedAndCrowdsourcedDatasets.pdf
+
+These sites contain raw data and APIs for accessing the data, I assume that Last.FM has something similar:
+http://developer.echonest.com/
+http://labrosa.ee.columbia.edu/millionsong/pages/field-list
+
+This is the file-format used, at least by million song, echonest may be more accessible, 
+but they require licensing.
+http://www.hdfgroup.org/hdf-java-html/
+
+This is a quick primer for the type of thing I am thinking about: https://class.coursera.org/ml/lecture/99
+
+I am thinking at a very trivial level, we can have a preference array for each user,
+generated off of song plays, likes, etc.
+
+So Pref,i(Ai,Bi,Ci,Di....), where each node represents the average weighted value for a "genre type" or song tag
+Like Aaron(Rock,Jazz,...)
+
+And I bet we can already find or generate a similar weighted array for each song.
+Something like: Song Array --> Informs Person Array --> Informs Mob Array --> Influences playlist choice, etc.
+
+This is just an idea, there is probably a better way but its a brainstorm.
