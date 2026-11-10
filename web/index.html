@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="referrer" content="no-referrer">
+    <title>MobMentality · Host console</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to host console</a>
+    <div class="app-shell">
+      <header class="masthead">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <div>
+            <p class="brand-name">MobMentality</p>
+            <p class="brand-caption">Host console</p>
+          </div>
+        </div>
+        <span class="badge">Read-only experiment</span>
+      </header>
+
+      <main id="main-content" tabindex="-1">
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">Connection &amp; source</p>
+          <h1 id="page-title">Start with your music.</h1>
+          <p class="intro-copy">Test your Beefweb connection and choose a source playlist. Nothing here changes what foobar2000 is playing.</p>
+        </section>
+
+        <noscript>
+          <div class="notice notice-warning">
+            JavaScript is required for this console. Connection controls are disabled; no credentials will be submitted by this form.
+          </div>
+        </noscript>
+
+        <div id="connection-indicator" class="connection-indicator" data-state="disconnected">
+          <span class="status-dot" aria-hidden="true"></span>
+          <p id="connection-status" role="status" aria-live="polite" aria-atomic="true">Not connected. Enter your Beefweb details to begin.</p>
+        </div>
+
+        <div id="error-panel" class="notice notice-error" hidden>
+          <p class="notice-title">The request could not be completed</p>
+          <p id="error-message" role="alert" aria-live="assertive" aria-atomic="true" tabindex="-1"></p>
+          <div id="disconnect-recovery" class="disconnect-recovery" hidden>
+            <p id="recovery-help">The local service did not confirm disconnection. Try Disconnect again, or clear this tab only. Clearing this tab cannot confirm deletion on the service; an abandoned session expires after 30 minutes of inactivity.</p>
+            <button id="clear-local-button" class="button button-secondary" type="button" aria-describedby="recovery-help" disabled>Clear this tab only</button>
+          </div>
+        </div>
+
+        <div class="console-grid">
+          <section id="connection-panel" class="panel" aria-labelledby="connection-heading">
+            <header class="panel-heading">
+              <span class="step-index" aria-hidden="true">01</span>
+              <div>
+                <h2 id="connection-heading">Connect to Beefweb</h2>
+                <p>Your player, through the local service.</p>
+              </div>
+            </header>
+
+            <form id="connection-form" method="post" action="/" autocomplete="off" aria-describedby="credential-policy">
+              <fieldset id="connection-fields" disabled>
+                <legend class="visually-hidden">Your Beefweb connection details</legend>
+                <div class="field">
+                  <label for="address">Beefweb address</label>
+                  <input id="address" name="address" type="url" value="http://127.0.0.1:8880" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="url" required aria-describedby="address-help endpoint-warning">
+                  <p id="address-help" class="field-help">Use the base address, without embedded credentials or query parameters.</p>
+                </div>
+
+                <div id="endpoint-warning" class="notice notice-warning">
+                  <p class="notice-title">Only connect to an endpoint you trust.</p>
+                  <p>The local service sends your credentials to the address above. Loopback is recommended when the service and foobar2000 run on the same computer. HTTP over a LAN sends credentials and traffic unencrypted.</p>
+                </div>
+
+                <div class="credential-grid">
+                  <div class="field">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+                  </div>
+                  <div class="field">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="off" required aria-describedby="password-help">
+                  </div>
+                </div>
+                <p id="password-help" class="field-help">Use your own Beefweb credentials. Both fields are cleared when you submit; neither is remembered by this app.</p>
+
+                <div class="actions">
+                  <button id="connect-button" class="button button-primary" type="submit" disabled>Test connection</button>
+                  <span class="action-note">Reads player details &amp; playlists</span>
+                </div>
+              </fieldset>
+            </form>
+
+            <div id="connection-details" hidden>
+              <p class="section-caption">Details reported by the connection test</p>
+              <dl class="connection-facts">
+                <div><dt>Player</dt><dd id="player-name">Not connected</dd></div>
+                <div><dt>Player version</dt><dd id="player-version">—</dd></div>
+                <div><dt>Beefweb version</dt><dd id="plugin-version">—</dd></div>
+                <div class="address-fact"><dt>Endpoint</dt><dd id="connected-address">—</dd></div>
+              </dl>
+              <div class="disconnect-actions">
+                <button id="disconnect-button" class="button button-secondary" type="button" aria-describedby="disconnect-help" disabled>Disconnect</button>
+                <p id="disconnect-help" class="field-help">Ends this app session and asks the local service to forget its credentials. The player keeps doing what it was doing.</p>
+              </div>
+            </div>
+
+            <p id="credential-policy" class="panel-footnote">After submission, the local service retains credentials in memory only. Disconnect clears them; the session expires after <strong>30 minutes of inactivity</strong>.</p>
+          </section>
+
+          <section id="source-panel" class="panel" aria-labelledby="source-heading">
+            <header class="panel-heading">
+              <span class="step-index" aria-hidden="true">02</span>
+              <div>
+                <h2 id="source-heading">Choose a source</h2>
+                <p>A playlist reference, not a playback command.</p>
+              </div>
+            </header>
+
+            <form id="source-form" method="post" action="/">
+              <fieldset id="source-fields" disabled>
+                <legend class="visually-hidden">Source playlist selection</legend>
+                <div class="field">
+                  <label for="playlist-select">Source playlist</label>
+                  <select id="playlist-select" name="playlistId" required aria-describedby="playlist-summary playlist-help" disabled>
+                    <option value="" selected disabled>Connect to load playlists</option>
+                  </select>
+                  <p id="playlist-summary" class="field-help">Connect to see a read-only snapshot of your playlists.</p>
+                </div>
+                <p id="playlist-help" class="field-help">Choosing an option does not save it. Use Select source to keep the choice in this app session. Empty playlists are listed but cannot be used.</p>
+                <div class="actions">
+                  <button id="select-source-button" class="button button-primary" type="submit" disabled>Select source</button>
+                  <button id="refresh-button" class="button button-secondary" type="button" disabled>Refresh playlists</button>
+                </div>
+              </fieldset>
+            </form>
+
+            <section id="selected-summary" class="source-summary" data-state="empty" aria-labelledby="selection-heading">
+              <h3 id="selection-heading" class="eyebrow">App-only selection</h3>
+              <p id="source-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1">No source selected. Connect to load your playlists.</p>
+              <p class="field-help">Selecting a source never changes foobar2000’s active playlist, playback queue, music files or tags.</p>
+            </section>
+
+            <p class="panel-footnote">This is a metadata snapshot, not a live monitor. Refresh is manual; requests are never automatically retried.</p>
+          </section>
+        </div>
+
+        <aside class="session-note" aria-labelledby="session-note-heading">
+          <h2 id="session-note-heading">One tab. One temporary connection.</h2>
+          <p>The session token stays in this tab’s memory only. Reloading requires reconnecting. Reloading or closing the tab does not confirm deletion of the server session; an abandoned session expires after 30 minutes of inactivity. Disconnect first when you can.</p>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        <span>Small first step. Player untouched.</span>
+        <span>No guest interface, playback controls or policy simulator.</span>
+      </footer>
+    </div>
+  </body>
+</html>
