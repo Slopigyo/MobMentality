@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+
+# Existing tracked historical files remain preserved.
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+/test-results/
+/tmp/
+/node_modules/
+
+# Private intake material and local inspection notes are not public source.
+/mobmentality restart brainstorm.txt
+/.private/
